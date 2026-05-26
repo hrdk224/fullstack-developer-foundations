@@ -43,14 +43,14 @@
 // }
 
 // Task 7
-let range = 20;
-let result = ' ';
-next: for (let i = 2; i <= range; i++) {
-  for (let j = 2; j < i; j++) {
-    if (i % j == 0) {
-      continue next;
-    }
-  }
-  result = result + ' ' + i;
-}
-console.log(result);
+// let range = 20;
+// let result = ' ';
+// next: for (let i = 2; i <= range; i++) {
+//   for (let j = 2; j < i; j++) {
+//     if (i % j == 0) {
+//       continue next;
+//     }
+//   }
+//   result = result + ' ' + i;
+// }
+// console.log(result);
