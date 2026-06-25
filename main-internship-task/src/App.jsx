@@ -12,6 +12,7 @@ import ShopAll from './pages/ShopAll';
 import Profile from './pages/Profile';
 import Cart from './pages/Cart';
 import ProductDetails from './pages/ProductDetails';
+import OrderSuccess from './pages/OrderSuccess';
 import AuthModal from './components/ui/AuthModal';
 import GetStartedModal from './components/ui/GetStartedModal';
 
@@ -35,6 +36,7 @@ const AppContent = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/order-success/:orderId" element={<OrderSuccess />} />
         </Routes>
       </main>
 

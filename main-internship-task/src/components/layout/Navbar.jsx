@@ -86,7 +86,7 @@ const Navbar = ({ onOpenGetStarted }) => {
 
 
 
-          {!user && (
+          {!user ? (
             <Button 
               variant="primary" 
               onClick={onOpenGetStarted}
@@ -94,6 +94,13 @@ const Navbar = ({ onOpenGetStarted }) => {
             >
               Get Started
             </Button>
+          ) : (
+            <button
+              onClick={handleProfileClick}
+              className="material-symbols-outlined text-on-surface-variant hover:text-white transition-colors cursor-pointer hidden md:block"
+            >
+              person
+            </button>
           )}
 
           {/* Mobile menu trigger */}

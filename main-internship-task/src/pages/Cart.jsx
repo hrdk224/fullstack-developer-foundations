@@ -4,8 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Cart = () => {
-  const { cartItems, removeFromCart, updateQuantity } = useCart();
-  const { user, setIsGetStartedOpen, setGetStartedStep } = useAuth();
+  const { cartItems, removeFromCart, updateQuantity, clearCart } = useCart();
+  const { user, setIsGetStartedOpen, setGetStartedStep, addOrder } = useAuth();
   const navigate = useNavigate();
 
   const calculateSubtotal = () => {
@@ -29,8 +29,10 @@ const Cart = () => {
       return;
     }
 
-    // Process to real checkout (mocked)
-    alert("Proceeding to secure payment gateway!");
+    // Process to real checkout
+    const newOrder = addOrder(cartItems, total, user.shippingAddress);
+    clearCart();
+    navigate(`/order-success/${newOrder.id}`);
   };
 
   return (
@@ -128,29 +130,7 @@ const Cart = () => {
             <div className="bg-surface-container p-8 rounded-lg border border-outline-variant/20 sticky top-28">
               <h2 className="font-label-sm text-on-surface-variant uppercase tracking-[0.2em] mb-8">Order Summary</h2>
               
-              {/* Make it a Gift */}
-              <div className="flex items-center justify-between p-4 bg-surface-container-highest/50 rounded-lg mb-6 group cursor-pointer hover:bg-surface-container-highest transition-all">
-                <div className="flex items-center gap-4">
-                  <span className="material-symbols-outlined text-primary">featured_seasonal_and_gifts</span>
-                  <div>
-                    <p className="text-sm font-bold uppercase tracking-wider text-white">Make it a gift</p>
-                    <p className="text-xs text-on-surface-variant">Personalized note & premium wrap</p>
-                  </div>
-                </div>
-                <button className="text-primary font-label-sm font-bold underline cursor-pointer">ADD</button>
-              </div>
-              
-              {/* Dropdowns */}
-              <div className="space-y-4 mb-8">
-                <button className="w-full flex justify-between items-center py-4 border-b border-outline-variant/30 text-on-surface hover:text-primary transition-all cursor-pointer">
-                  <span className="font-label-sm uppercase tracking-widest">Coupons & Offers</span>
-                  <span className="material-symbols-outlined">expand_more</span>
-                </button>
-                <button className="w-full flex justify-between items-center py-4 border-b border-outline-variant/30 text-on-surface hover:text-primary transition-all cursor-pointer">
-                  <span className="font-label-sm uppercase tracking-widest">Redeem Gift Card</span>
-                  <span className="material-symbols-outlined">expand_more</span>
-                </button>
-              </div>
+
               
               {/* Order Analysis */}
               <div className="space-y-4 mb-8">

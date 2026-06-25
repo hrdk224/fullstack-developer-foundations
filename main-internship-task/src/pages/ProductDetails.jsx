@@ -9,16 +9,7 @@ const ProductDetails = () => {
   const { addToCart, setIsCartOpen } = useCart();
   
   const [product, setProduct] = useState(null);
-  const [isUpsellOpen, setIsUpsellOpen] = useState(false);
   const [successToast, setSuccessToast] = useState('');
-
-  // Configuration state (if customizable)
-  const [selections, setSelections] = useState({
-    processor: 'base',
-    ram: '16gb',
-    storage: '512gb',
-    expansion: '4-port'
-  });
 
   useEffect(() => {
     const p = getProductById(id);
@@ -31,49 +22,19 @@ const ProductDetails = () => {
 
   if (!product) return null;
 
-  const calculateTotal = () => {
-    let total = product.price;
-    if (product.isConfigurable) {
-      if (selections.processor === 'i9') total += 249;
-      if (selections.ram === '64gb') total += 180;
-      if (selections.storage === '1tb') total += 120;
-      if (selections.expansion !== '4-port') total += 25;
-    }
-    return total;
-  };
-
   const handleAddToCart = () => {
-    const specs = product.isConfigurable ? {
-      processor: selections.processor,
-      ram: selections.ram,
-      storage: selections.storage,
-      expansion: selections.expansion
-    } : null;
-
     addToCart({
       id: `${product.id}-${Date.now()}`,
       name: product.name,
-      price: calculateTotal(),
+      price: product.price,
       imageUrl: product.imageUrl,
-      type: product.isConfigurable ? 'custom' : 'standard',
-      specs,
+      type: 'standard',
       quantity: 1
     });
 
-    if (product.isConfigurable) {
-      setIsUpsellOpen(true);
-    } else {
-      setSuccessToast(`${product.name} added to bag!`);
-      setTimeout(() => setSuccessToast(''), 3000);
-    }
+    setSuccessToast(`${product.name} added to bag!`);
+    setTimeout(() => setSuccessToast(''), 3000);
   };
-
-  const handleUpsellCheckout = () => {
-    setIsUpsellOpen(false);
-    navigate('/cart');
-  };
-
-  const trendingUpsells = PRODUCTS.filter(p => p.category === 'accessories').slice(0, 3);
 
   return (
     <div className="pt-24 min-h-screen selection:bg-primary selection:text-background">
@@ -121,69 +82,10 @@ const ProductDetails = () => {
               ({product.category.replace('-', ' ')})
             </p>
 
-            {/* Configurator Only if applicable */}
-            {product.isConfigurable && (
-              <div className="space-y-8">
-                {/* Processor */}
-                <div>
-                  <h3 className="font-label-sm text-primary mb-4 uppercase tracking-widest">Processor</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button 
-                      onClick={() => setSelections({...selections, processor: 'base'})}
-                      className={`p-4 border rounded-lg text-left transition-all cursor-pointer ${selections.processor === 'base' ? 'border-primary bg-surface-container-high' : 'border-outline-variant bg-transparent hover:border-primary/50'}`}
-                    >
-                      <p className={`font-label-sm ${selections.processor === 'base' ? 'text-primary' : 'text-on-surface-variant'}`}>Standard CPU</p>
-                      <p className="text-[10px] text-on-surface-variant mt-1">Included</p>
-                    </button>
-                    <button 
-                      onClick={() => setSelections({...selections, processor: 'i9'})}
-                      className={`p-4 border rounded-lg text-left transition-all cursor-pointer ${selections.processor === 'i9' ? 'border-primary bg-surface-container-high' : 'border-outline-variant bg-transparent hover:border-primary/50'}`}
-                    >
-                      <p className={`font-label-sm ${selections.processor === 'i9' ? 'text-primary' : 'text-on-surface-variant'}`}>Pro CPU</p>
-                      <p className="text-[10px] text-on-surface-variant mt-1">+$249.00</p>
-                    </button>
-                  </div>
-                </div>
 
-                {/* Memory */}
-                <div>
-                  <h3 className="font-label-sm text-primary mb-4 uppercase tracking-widest">Memory (RAM)</h3>
-                  <div className="grid grid-cols-3 gap-3">
-                    {['16gb', '32gb', '64gb'].map((ram) => (
-                      <button 
-                        key={ram}
-                        onClick={() => setSelections({...selections, ram})}
-                        className={`p-3 border rounded-lg text-center transition-all cursor-pointer ${selections.ram === ram ? 'border-primary bg-surface-container-high' : 'border-outline-variant bg-transparent hover:border-primary/50'}`}
-                      >
-                        <p className={`font-label-sm uppercase ${selections.ram === ram ? 'text-primary' : 'text-on-surface-variant'}`}>{ram}</p>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Storage */}
-                <div>
-                  <h3 className="font-label-sm text-primary mb-4 uppercase tracking-widest">Storage</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button 
-                      onClick={() => setSelections({...selections, storage: '512gb'})}
-                      className={`p-4 border rounded-lg text-left transition-all cursor-pointer ${selections.storage === '512gb' ? 'border-primary bg-surface-container-high' : 'border-outline-variant bg-transparent hover:border-primary/50'}`}
-                    >
-                      <p className={`font-label-sm uppercase ${selections.storage === '512gb' ? 'text-primary' : 'text-on-surface-variant'}`}>512GB NVMe</p>
-                    </button>
-                    <button 
-                      onClick={() => setSelections({...selections, storage: '1tb'})}
-                      className={`p-4 border rounded-lg text-left transition-all cursor-pointer ${selections.storage === '1tb' ? 'border-primary bg-surface-container-high' : 'border-outline-variant bg-transparent hover:border-primary/50'}`}
-                    >
-                      <p className={`font-label-sm uppercase ${selections.storage === '1tb' ? 'text-primary' : 'text-on-surface-variant'}`}>1TB Gen4 SSD</p>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* General Info Accordion */}
-            <div className={`border-t border-outline-variant pt-4 ${product.isConfigurable ? 'mt-8' : 'mt-4'}`}>
+            <div className="border-t border-outline-variant pt-4 mt-4">
               <details className="group" open>
                 <summary className="flex justify-between items-center cursor-pointer py-4 list-none outline-none">
                   <span className="font-label-sm text-primary">PRODUCT DETAILS</span>
@@ -208,14 +110,14 @@ const ProductDetails = () => {
             <div className="sticky bottom-0 bg-surface-container pt-8 pb-4 border-t border-outline-variant/30 mt-8">
               <div className="flex items-center justify-between mb-4">
                 <span className="font-body-md text-on-surface-variant">Total:</span>
-                <span className="font-headline-sm text-primary">${calculateTotal()}</span>
+                <span className="font-headline-sm text-primary">${product.price}</span>
               </div>
               <button 
                 onClick={handleAddToCart}
                 className="w-full bg-surface-bright text-primary py-4 rounded-full font-label-sm font-bold tracking-widest uppercase hover:bg-primary hover:text-on-primary transition-all flex items-center justify-center gap-2 border border-outline-variant cursor-pointer"
               >
                 <span className="material-symbols-outlined">shopping_bag</span>
-                {product.isConfigurable ? 'Configure & Add to Cart' : 'Add to Cart'}
+                Add to Cart
               </button>
             </div>
           </div>
@@ -243,57 +145,7 @@ const ProductDetails = () => {
         </div>
       </section>
 
-      {/* Upsell Modal Overlay */}
-      {isUpsellOpen && (
-        <div className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-surface-container-high w-full max-w-2xl rounded-2xl overflow-hidden relative border border-outline-variant/50 animate-in zoom-in-95 duration-300">
-            <button 
-              className="absolute top-6 right-6 text-on-surface-variant hover:text-primary transition-colors cursor-pointer" 
-              onClick={() => setIsUpsellOpen(false)}
-            >
-              <span className="material-symbols-outlined">close</span>
-            </button>
-            <div className="p-8 md:p-12">
-              <h3 className="font-headline-md text-headline-md text-primary mb-2">Complete Your Purchase</h3>
-              <p className="text-on-surface-variant font-body-md mb-8">Maximize your new modular setup with these recommended peripherals.</p>
-              
-              <div className="space-y-4 mb-10">
-                {trendingUpsells.map(upsell => (
-                  <div key={upsell.id} className="flex items-center gap-4 p-4 bg-surface-container border border-outline-variant/30 rounded-xl">
-                    <div className="w-20 h-20 rounded-lg bg-surface-container-lowest overflow-hidden flex-shrink-0">
-                      <img alt={upsell.name} className="w-full h-full object-cover" src={upsell.imageUrl} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-label-sm text-primary uppercase truncate">{upsell.name}</h4>
-                      <p className="text-on-surface-variant text-[11px] truncate uppercase">{upsell.category}</p>
-                    </div>
-                    <div className="flex items-center gap-4 flex-shrink-0">
-                      <span className="font-body-md text-primary">${upsell.price}</span>
-                      <button 
-                        className="bg-primary/10 text-primary border border-primary/20 px-4 py-1.5 rounded-full font-label-sm hover:bg-primary hover:text-on-primary transition-all cursor-pointer"
-                        onClick={() => {
-                          addToCart({ ...upsell, type: 'standard', quantity: 1 });
-                          setSuccessToast(`${upsell.name} added!`);
-                          setTimeout(() => setSuccessToast(''), 2000);
-                        }}
-                      >
-                        + ADD
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <button 
-                onClick={handleUpsellCheckout}
-                className="w-full bg-surface-bright text-primary py-5 rounded-full font-label-sm font-bold tracking-[0.2em] uppercase hover:bg-primary hover:text-on-primary transition-all border border-outline-variant cursor-pointer"
-              >
-                Proceed to Checkout
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
     </div>
   );
 };

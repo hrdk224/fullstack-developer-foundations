@@ -5,7 +5,7 @@ const innovations = [
   {
     category: 'Engineering',
     title: 'Next-Gen Modular Laptops',
-    buttonText: 'Explore Design',
+    buttonText: 'Shop Laptops',
     path: '/laptops',
     imageUrl:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuDqFEU0SVhQMKcFDI4vZobYy5SotgK6UcTiQ2kiU03p-zt_ptk-JrfCOr5A-ugGesihPOqqd4RYDqTk7KSsBY7NarCUFBP1gTYbiUr7A2EVhVqWkatfEKG6J_or0n38aalToQS0Oe0KMZGmtb0kiaUMhVguNHenoIyaUiqv0CvO3vb5ONNRQPQl_mkfn5xivmAYcvDK4d7KU8ro3F5jIB4qstYP9W9SDhuvCp0c0XCk5fXhSE9sEOR4r0i0sOWGSbr1UZAqO9ryLtg',
@@ -13,7 +13,7 @@ const innovations = [
   {
     category: 'Productivity',
     title: 'Built for Creators',
-    buttonText: 'View Specs',
+    buttonText: 'Shop Workstations',
     path: '/workstations',
     imageUrl:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuBlATcFhlZGDwNavo4PCbhGsR8E2_AEKn083-sWFWhCWZ8AgK-LcsNARdSwhsGhbsT1EiVdm7vhD5lE27gA-TBla8cvX3paF6dBI9vKpP3sa9iKj59XCRud7MrGCSrnAtC6iAySbSKdjVB0geMdnFtzmPsdaZFxIk2rbzq0cicSBIS3QiE0io5awbqk1QbeXwRzDX9KqsQqm6Kk3FlEurDWGb1eBYe7G_dAgt697gPMCFLfsEYDt2T7z2Fs5OlpQoSGpVzRu9-cjEE',

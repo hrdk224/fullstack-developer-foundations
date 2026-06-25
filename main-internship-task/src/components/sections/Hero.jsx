@@ -56,10 +56,10 @@ function Hero() {
 
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-900">
           <button
-            onClick={() => navigate('/workstations')}
-            className="rounded-full bg-white py-4 px-10 text-background font-bold text-lg hover:scale-105 hover:bg-white/90 active:scale-95 transition-all shadow-xl cursor-pointer"
+            onClick={() => navigate('/shop')}
+            className="bg-white text-background px-10 py-4 rounded-full font-body-md font-bold text-lg hover:scale-105 transition-transform cursor-pointer"
           >
-            Configure Yours
+            View Collection
           </button>
         </div>
       </div>

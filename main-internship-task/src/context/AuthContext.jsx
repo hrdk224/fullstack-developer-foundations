@@ -26,18 +26,7 @@ export const AuthProvider = ({ children }) => {
       email: email,
       shippingAddress: null,
       savedConfigs: JSON.parse(localStorage.getItem(`configs_${email}`)) || [],
-      orders: JSON.parse(localStorage.getItem(`orders_${email}`)) || [
-        {
-          id: 'ORD-8942-X',
-          date: '2026-06-15',
-          status: 'Delivered',
-          total: 1250,
-          items: [
-            { name: 'KINETIX MKL Keyboard', price: 250, quantity: 1 },
-            { name: 'Core Monitor 4K', price: 1000, quantity: 1 }
-          ]
-        }
-      ]
+      orders: JSON.parse(localStorage.getItem(`orders_${email}`)) || []
     };
     setUser(mockUser);
     return { success: true };
